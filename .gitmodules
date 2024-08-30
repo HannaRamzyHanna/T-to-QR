@@ -1,0 +1,3 @@
+[submodule "qr_code_flask"]
+	path = qr_code_flask
+	url = https://github.com/HannaRamzyHanna/T-to-QR
