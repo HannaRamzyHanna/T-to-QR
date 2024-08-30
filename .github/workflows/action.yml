@@ -1,0 +1,50 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run linter
+      run: |
+        pylint app.py  # Adjust if you have a linter configuration file
+
+    - name: Run tests
+      run: |
+        pytest
+
+    - name: Build Docker image
+      run: |
+        docker build -t hannaramzy/qr-app .
+
+    - name: Log in to Docker Hub
+      run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+
+    - name: Push Docker image
+      run: |
+        docker push hannaramzy/qr-app
+
+    - name: Tag Docker image
+      if: startsWith(github.ref, 'refs/tags/')
+      run: |
+        TAG=$(echo "${GITHUB_REF#refs/tags/}")
+        docker tag hannaramzy/qr-app hannaramzy/qr-app:${TAG}
+        docker push hannaramzy/qr-app:${TAG}
