@@ -1,0 +1,29 @@
+---
+- name: Run Docker container on localhost
+  hosts: localhost
+  tasks:
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Ensure Docker service is running
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Pull the Docker image from DockerHub
+      docker_image:
+        name: hannaramzy/qr-app
+        source: pull
+
+    - name: Run the Docker container
+      docker_container:
+        name: qr_app_container
+        image: hannaramzy/qr-app
+        state: started
+        restart_policy: always
+        ports:
+          - "8081:80"  # Updated port
+
