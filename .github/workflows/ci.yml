@@ -21,8 +21,11 @@ jobs:
         with:
           python-version: '3.x'  # Use the latest version of Python 3
 
-      - name: Install dependencies
+      - name: Create a virtual environment
         run: |
+          python -m venv venv
+          echo "Activating virtual environment..."
+          source venv/bin/activate  # Activate the virtual environment
           echo "Upgrading pip..."
           python -m pip install --upgrade pip
           echo "Installing Pylint..."
@@ -30,5 +33,7 @@ jobs:
 
       - name: Run pylint
         run: |
+          echo "Activating virtual environment..."
+          source venv/bin/activate  # Activate the virtual environment
           echo "Running Pylint..."
           pylint app.py  # Adjust if you have a linter configuration file
