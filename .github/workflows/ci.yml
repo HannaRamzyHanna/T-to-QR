@@ -15,25 +15,20 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v3
-
+        
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'  # Use the latest version of Python 3
+          python-version: '3.10'  # Specify your Python version
 
-      - name: Create a virtual environment
+      - name: Install dependencies
         run: |
-          python -m venv venv
-          echo "Activating virtual environment..."
-          source venv/bin/activate  # Activate the virtual environment
-          echo "Upgrading pip..."
-          python -m pip install --upgrade pip
-          echo "Installing dependencies..."
-          python -m pip install -r requirements.txt  # Install all dependencies
+          python -m venv venv          # Create a virtual environment
+          source venv/bin/activate      # Activate the virtual environment
+          pip install pylint            # Install pylint
+          pip install -r requirements.txt # Install other dependencies if you have a requirements file
 
-      - name: Run pylint
+      - name: Run Pylint
         run: |
-          echo "Activating virtual environment..."
-          source venv/bin/activate  # Activate the virtual environment
-          echo "Running Pylint..."
-          pylint app.py  # Adjust if you have a linter configuration file
+          source venv/bin/activate      # Activate the virtual environment
+          pylint app.py                 # Run pylint on your app.py
