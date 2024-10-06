@@ -1,15 +1,13 @@
 version: '3'
 services:
   web:
+    image: your-dockerhub-username/qr-app:latest  # Replace with your DockerHub image
     build: .
     ports:
-      - "80:80"
-    depends_on:
-      - nginx
-
+      - "5000:5000"  # Match the port where your app runs
   nginx:
-    image: nginx:latest
+    image: nginx:alpine
     ports:
-      - "8080:80"
+      - "80:80"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
