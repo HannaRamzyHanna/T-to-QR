@@ -25,3 +25,14 @@ jobs:
         run: |
           . venv/bin/activate
           pylint app.py  # Adjust if you have a linter configuration file
+
+      - name: Run tests
+        run: |
+          . venv/bin/activate
+          pytest  # Adjust if necessary
+
+      # Optional: Add a step to build your Docker image if needed
+      - name: Build Docker image
+        run: |
+          docker build -t your-docker-image-name .  # Adjust to your Dockerfile path
+          docker push your-docker-image-name  # Adjust if you want to push it to Docker Hub
