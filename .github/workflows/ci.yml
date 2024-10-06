@@ -24,9 +24,14 @@ jobs:
       - name: Install dependencies
         run: |
           python -m venv venv                # Create a virtual environment
-          . venv/bin/activate                 # Activate the virtual environment
+          source venv/bin/activate            # Activate the virtual environment
           pip install pylint                  # Install pylint
           pip install -r requirements.txt     # Install other dependencies if you have a requirements file
+
+      - name: Check installed packages
+        run: |
+          source venv/bin/activate            # Activate the virtual environment
+          ls venv/bin/                       # List the binaries in the venv
 
       - name: Run Pylint
         run: |
