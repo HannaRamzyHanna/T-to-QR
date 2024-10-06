@@ -1,15 +1,13 @@
-"""
-This module provides a Flask application to generate QR codes.
-"""
-
-import base64
-import io
-from flask import Flask
+# Remove unused imports
+from flask import Flask, request, jsonify
 import qrcode
 
 app = Flask(__name__)
 
 @app.route('/generate_qr', methods=['POST'])
 def generate_qr():
-    """Generates a QR code from the provided data."""
-    # Your implementation here...
+    # Your QR code generation logic
+    pass
+
+if __name__ == '__main__':
+    app.run(debug=True)
