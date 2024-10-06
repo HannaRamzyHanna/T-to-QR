@@ -28,8 +28,8 @@ jobs:
           source venv/bin/activate  # Activate the virtual environment
           echo "Upgrading pip..."
           python -m pip install --upgrade pip
-          echo "Installing Pylint..."
-          python -m pip install pylint  # Install Pylint
+          echo "Installing dependencies..."
+          python -m pip install -r requirements.txt  # Install all dependencies
 
       - name: Run pylint
         run: |
