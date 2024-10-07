@@ -13,6 +13,9 @@ def index():
 @app.route('/generate_qr', methods=['POST'])
 def generate_qr():
     data = request.form['data']
+    if not data:
+        return jsonify({'error': 'No data provided!'}), 400
+
     qr = qrcode.make(data)
     buffer = io.BytesIO()
     qr.save(buffer, format='PNG')
@@ -21,5 +24,5 @@ def generate_qr():
     return jsonify({'qr_code': qr_base64})
 
 if __name__ == '__main__':
-    port = int(sys.argv[1]) if len(sys.argv) > 1 else 5001  # Set default port to 5001
+    port = int(sys.argv[1]) if len(sys.argv) > 1 else 5000  # Set default port to 5000
     app.run(debug=True, host='0.0.0.0', port=port)

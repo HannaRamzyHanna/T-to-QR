@@ -1,6 +1,12 @@
-name: CI
+name: CI/CD Pipeline
 
-on: [push]
+on:
+  push:
+    branches:
+      - main  # Adjust to your branch name
+  pull_request:
+    branches:
+      - main  # Adjust to your branch name
 
 jobs:
   build:
@@ -13,26 +19,14 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.12'  # Specify your Python version
+          python-version: "3.12"  # Adjust to your Python version
 
       - name: Install dependencies
         run: |
-          python -m venv venv
-          . venv/bin/activate
-          pip install -r requirements.txt  # Install your dependencies
-
-      - name: Run Pylint
-        run: |
-          . venv/bin/activate
-          pylint app.py  # Adjust if you have a linter configuration file
+          pip install --no-cache-dir -r requirements.txt
 
       - name: Run tests
         run: |
-          . venv/bin/activate
-          pytest  # Adjust if necessary
+          # Add your testing commands here
+          echo "No tests defined yet!"
 
-      # Optional: Add a step to build your Docker image if needed
-      - name: Build Docker image
-        run: |
-          docker build -t your-docker-image-name .  # Adjust to your Dockerfile path
-          docker push your-docker-image-name  # Adjust if you want to push it to Docker Hub
