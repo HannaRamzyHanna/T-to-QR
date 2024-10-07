@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify
 import qrcode
 import io
 import base64
+import sys
 
 app = Flask(__name__)
 
@@ -20,4 +21,5 @@ def generate_qr():
     return jsonify({'qr_code': qr_base64})
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5001)  # Use port 5001 or 5000
+    port = int(sys.argv[1]) if len(sys.argv) > 1 else 5001  # Set default port to 5001
+    app.run(debug=True, host='0.0.0.0', port=port)

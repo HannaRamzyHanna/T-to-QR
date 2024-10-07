@@ -3,6 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>QR Code Generator</title>
+    <style>
+        /* Basic styles for the loading message */
+        #loadingMessage {
+            display: none; /* Hide by default */
+            font-size: 18px;
+            color: #007BFF; /* Bootstrap primary color */
+        }
+    </style>
 </head>
 <body>
     <h1>QR Code Generator</h1>
@@ -10,21 +18,37 @@
         <input type="text" name="data" placeholder="Enter data for QR code" required>
         <button type="submit">Generate QR Code</button>
     </form>
+    <div id="loadingMessage">Generating QR Code, please wait...</div>
     <div id="qrCodeContainer">
         <img id="qrCode" src="" alt="QR Code will appear here">
+        <a id="downloadLink" href="#" style="display:none;" download="qr_code.png">Download QR Code</a>
     </div>
 
     <script>
         document.getElementById('qrForm').onsubmit = function(e) {
             e.preventDefault();
             var formData = new FormData(this);
+            var loadingMessage = document.getElementById('loadingMessage');
+            var downloadLink = document.getElementById('downloadLink');
+            var qrCodeImage = document.getElementById('qrCode');
+
+            // Show loading message
+            loadingMessage.style.display = 'block';
+            qrCodeImage.style.display = 'none'; // Hide the QR code image
+
             fetch('/generate_qr', {
                 method: 'POST',
                 body: formData
             })
             .then(response => response.json())
             .then(data => {
-                document.getElementById('qrCode').src = 'data:image/png;base64,' + data.qr_code;
+                qrCodeImage.src = 'data:image/png;base64,' + data.qr_code;
+                qrCodeImage.style.display = 'block'; // Show the QR code image
+                downloadLink.href = qrCodeImage.src; // Set the download link
+                downloadLink.style.display = 'inline'; // Show the download link
+            })
+            .finally(() => {
+                loadingMessage.style.display = 'none'; // Hide loading message
             });
         };
     </script>
